@@ -64,14 +64,11 @@ def print_hierarchies(input_file, id_field, parent_id_field, fmt, sort_by, outpu
         # Could not find anything
         logging.critical("Found %d possible parent objects. Should be one", len(rootids))
         return
-    elif len(rootids) == 1:
-        rootid = rootids[0]
-    elif len(rootids) > 1:
-        # error
-        logging.critical("Found %d possible parent objects (%r). Should only be one", len(rootids), rootids)
-        return
-
-    print_decending(rootid, fmt, properties_for_id, children_of_id, 0, sort_by, output_fp)
+    else:
+        if sort_by:
+            rootids.sort(key=lambda _id: properties[_id][sort_by])
+        for rootid in rootids:
+            print_decending(rootid, fmt, properties_for_id, children_of_id, 0, sort_by, output_fp)
 
 
 def main():
