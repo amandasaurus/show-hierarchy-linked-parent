@@ -51,6 +51,10 @@ def print_hierarchies(input_file, id_field, parent_id_field, fmt, sort_by, outpu
     properties_for_id = {}
     with fiona.open(input_file) as input:
         for row in input:
+
+            if row['properties'][id_field] is None:
+                continue
+
             properties_for_id[row['properties'][id_field]] = row['properties']
             children_of_id[row['properties'][parent_id_field]].append(row['properties'][id_field])
 
